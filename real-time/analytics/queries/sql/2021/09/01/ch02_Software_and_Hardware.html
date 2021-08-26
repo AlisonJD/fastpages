@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Chapter 2: The Software: ClickHouse and Tinybird | Principles of Real-Time Analytics Course</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Chapter 2: The Software: ClickHouse and Tinybird" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="SQL queries and scaling-up ever-growing amounts of data" />
+<meta property="og:description" content="SQL queries and scaling-up ever-growing amounts of data" />
+<link rel="canonical" href="https://alisonjd.github.io/fastpages/real-time/analytics/queries/sql/2021/09/01/ch02_Software_and_Hardware.html" />
+<meta property="og:url" content="https://alisonjd.github.io/fastpages/real-time/analytics/queries/sql/2021/09/01/ch02_Software_and_Hardware.html" />
+<meta property="og:site_name" content="Principles of Real-Time Analytics Course" />
+<meta property="og:image" content="https://alisonjd.github.io/fastpages/images/tb_logo_navbar.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-01T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"SQL queries and scaling-up ever-growing amounts of data","url":"https://alisonjd.github.io/fastpages/real-time/analytics/queries/sql/2021/09/01/ch02_Software_and_Hardware.html","@type":"BlogPosting","headline":"Chapter 2: The Software: ClickHouse and Tinybird","dateModified":"2021-09-01T00:00:00-05:00","datePublished":"2021-09-01T00:00:00-05:00","image":"https://alisonjd.github.io/fastpages/images/tb_logo_navbar.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://alisonjd.github.io/fastpages/real-time/analytics/queries/sql/2021/09/01/ch02_Software_and_Hardware.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/fastpages/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://alisonjd.github.io/fastpages/feed.xml" title="Principles of Real-Time Analytics Course" /><link rel="shortcut icon" type="image/x-icon" href="/fastpages/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/fastpages/">Principles of Real-Time Analytics Course</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/fastpages/about/">About Me</a><a class="page-link" href="/fastpages/search/">Search</a><a class="page-link" href="/fastpages/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Chapter 2: The Software: ClickHouse and Tinybird</h1><p class="page-description">SQL queries and scaling-up ever-growing amounts of data</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-01T00:00:00-05:00" itemprop="datePublished">
+        Sep 1, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/fastpages/categories/#real-time">real-time</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/fastpages/categories/#analytics">analytics</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/fastpages/categories/#queries">queries</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/fastpages/categories/#SQL">SQL</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/AlisonJD/fastpages/tree/master/_notebooks/2021-09-01-ch02_Software_and_Hardware.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/fastpages/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/AlisonJD/fastpages/blob/master/_notebooks/2021-09-01-ch02_Software_and_Hardware.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/fastpages/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#The-Software:-ClickHouse-and-Tinybird">The Software: ClickHouse and Tinybird </a></li>
+<li class="toc-entry toc-h1"><a href="#Modern-Computer-Hardware">Modern Computer Hardware </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Data-Storage-Systems">Data Storage Systems </a></li>
+<li class="toc-entry toc-h2"><a href="#CPU-Speed">CPU Speed </a></li>
+<li class="toc-entry toc-h2"><a href="#Memory-Speed">Memory Speed </a></li>
+<li class="toc-entry toc-h2"><a href="#Disk-Speed">Disk Speed </a></li>
+<li class="toc-entry toc-h2"><a href="#OS">OS </a></li>
+<li class="toc-entry toc-h2"><a href="#Cloud">Cloud </a></li>
+<li class="toc-entry toc-h2"><a href="#Course-Outline">Course Outline </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-01-ch02_Software_and_Hardware.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-Software:-ClickHouse-and-Tinybird">
+<a class="anchor" href="#The-Software:-ClickHouse-and-Tinybird" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Software: ClickHouse and Tinybird<a class="anchor-link" href="#The-Software:-ClickHouse-and-Tinybird"> </a>
+</h1>
+<p>If you are comfortable writing queries in SQL and you need to scale up to deal with ever-growing amounts of data then this course is for you.</p>
+<p>The choice of software is not important here because we are interested in the principles of real-time analytics, which are true whatever software you use. However, since the most important thing for learning is writing code and experimenting, running the examples will help you. The examples we show are in ClickHouse and Tinybird (built on ClickHouse) because this database management system is built for fast queries on large amounts of data.</p>
+<p><strong>ClickHouse Installation</strong>
+ClickHouse is a fast, open-source, column-oriented OLAP (online analytical processing) database management system that can be <a href="https://clickhouse.tech/docs/en/getting-started/install/">installed</a> on many systems.</p>
+<p><strong>Tinybird Installation</strong>
+<a href="https://www.tinybird.co/">Tinybird</a> is the easiest way to develop real-time analytics APIs over large quantities of data for low-latency and high-concurrency applications. You can use Tinybird’s User Interface, CLI tool or REST API to get the data you need in real-time to build your applications.</p>
+<p>Sign up <a href="https://www.tinybird.co/signup">here</a> to open an account to run the examples in these notebooks.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Modern-Computer-Hardware">
+<a class="anchor" href="#Modern-Computer-Hardware" aria-hidden="true"><span class="octicon octicon-link"></span></a>Modern Computer Hardware<a class="anchor-link" href="#Modern-Computer-Hardware"> </a>
+</h1>
+<p>Most likely you either know what you were taught about hardware architectures back when you were a student or you don’t know anything at all about hardware. That’s fine, to drive a car you don’t need to know how the engine works. So let’s introduce here some really basic concepts about hardware and how it works nowadays.</p>
+<p>Let’s start with the simplest approach: a computer has a CPU that executes instructions stored in memory and communicates with the rest of the world using various IO devices (network, disk…). That’s an oversimplification of a machine but it’s enough to start with.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-Storage-Systems">
+<a class="anchor" href="#Data-Storage-Systems" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Storage Systems<a class="anchor-link" href="#Data-Storage-Systems"> </a>
+</h2>
+<p>If we simplify, we have main memory and external storage devices. In theory, main memory access is much faster and has random access time and the disk is slower. We learnt that disk access is not random because of the spinning disks they use. These days this is still true even with SSDs (although they are much faster). And obviously data in memory is not permanent.</p>
+<p>But the reality is there are several cache layers in the CPU (L1, L2, L3…), multiple CPUs, the main memory, which is not random access, and the “slow” disk, which is often accessed across the network (but if we do things right it will be mapped to main memory by the OS).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="CPU-Speed">
+<a class="anchor" href="#CPU-Speed" aria-hidden="true"><span class="octicon octicon-link"></span></a>CPU Speed<a class="anchor-link" href="#CPU-Speed"> </a>
+</h2>
+<p>Back in the 1980s, CPUs were a piece of hardware that would fetch instructions from memory and execute instructions. Today they are complex things that fetch instructions from memory in parallel, cluster instructions to parallelize execution and have many execution pipelines that run those in parallel.</p>
+<p>The important takeaway here is that CPU’s are much much faster than memory, so in order to take advantage of that speed we need to organize our data in such a way that the CPUs are not stopped.</p>
+<p>It makes no sense having 32 CPUs in a machine if 90% of the time they are waiting for data.</p>
+<p>Not only clock speed and pipeline complexity have changed, today’s CPUs also have specific instruction sets to optimize some use cases. For example, there are instructions that allow you to add several numbers at a time, a simpler CPU can add just one number at a time, this is called vectorization and we will see how [analytics] databases use this to speed up computation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Memory-Speed">
+<a class="anchor" href="#Memory-Speed" aria-hidden="true"><span class="octicon octicon-link"></span></a>Memory Speed<a class="anchor-link" href="#Memory-Speed"> </a>
+</h2>
+<p>We need to differentiate between latency and speed/throughput. If you want to move things from one place to another you could use a car. A car is fast but the volume of things you can move in one trip is not large. If you use a truck it will take more time to get there but you will carry way more load. The car has low latency and low throughput, the truck has high latency and high throughput.</p>
+<p>Given our use case, what we are looking for is speed or throughput. If we wanted to just get a value from the main memory, latency would be more important but working with large datasets we usually fetch MB per query.</p>
+<p>An extreme example of these are GPUs, they have a very specific access pattern and their memory layout is designed to optimize bandwidth. Read <a href="https://fgiesen.wordpress.com/2011/07/02/a-trip-through-the-graphics-pipeline-2011-part-2/">Fabian Giesen on how GPUs work</a> to understand how each architecture is different depending on the use case.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this fantastic <a href="https://www.forrestthewoods.com/blog/memory-bandwidth-napkin-math/">article</a> by Forrest Smith on Memory Bandwith with Napkin Math, you can see different memory speed benchmarks:</p>
+<p>per core</p>
+<ul>
+<li>L1 Bandwidth:  210 GB/s </li>
+<li>L2 Bandwidth:  80 GB/s</li>
+<li>L3 Bandwidth:  60 GB/s</li>
+</ul>
+<p>whole system</p>
+<ul>
+<li>RAM Bandwidth: 45 GB/s</li>
+</ul>
+<p>memory sizes</p>
+<ul>
+<li>L1 cache: 192 kilobytes (32 KB per core)</li>
+<li>L2 cache: 1.5 megabytes (256 KB per core)</li>
+<li>L3 cache: 12 megabytes  (shared; 2 MB per core)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But those figures are the theory, speed depends a lot on how memory is accessed. These are the main takeaways about memory speed in real scenarios:</p>
+<ul>
+<li>Random access is 10x times slower than sequential access.</li>
+<li>Accessing already cached data is way faster than accessing non-cached data. </li>
+<li>Cached data increases speed linearly with the number of cores.</li>
+</ul>
+<p>To visualize it better, imagine you go to the grocery store and every single product you want to buy is placed on the same shelf. You would get all of them in a matter of seconds. However, the reality is that the products are usually organized by type so you need to spend time moving between the shelves to get all the items. You are the CPU, the shelves are the memory in this example.</p>
+<p>One great <a href="https://www.youtube.com/watch?v=MC1EKLQ2Wmg">talk</a> to understand better how modern machines work is Mythbusting Modern Hardware to Gain 'Mechanical Sympathy' from Martin Thompson.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Disk-Speed">
+<a class="anchor" href="#Disk-Speed" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disk Speed<a class="anchor-link" href="#Disk-Speed"> </a>
+</h2>
+<p>In general, disks are slow or way slower than memory. As always, that’s not totally true, for example, when reading large pieces of data SSD disks are pretty decent. Obviously try to use SSD disks when possible but always looking at the performance we get per $ spent.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="OS">
+<a class="anchor" href="#OS" aria-hidden="true"><span class="octicon octicon-link"></span></a>OS<a class="anchor-link" href="#OS"> </a>
+</h2>
+<p>We do not talk to the CPU, memory, disk or network directly, we have a layer that helps us to do that and controls how it is done. For example, the Linux kernel manages processes and decides which processes run, which disk pages are in memory and so on.</p>
+<p>There are many things we should take into account related to the OS (threads, IO and so on) but the main one is page cache, in other words, how the OS maps disk data in memory so that access is faster. If you are not sufficiently careful, you might end up fetching more disk pages than needed and therefore increasing the amount of data read. And you already know that reading from disk is slow.</p>
+<p>As a side note, there are databases that use direct IO to bypass the OS page cache so you’ll need to spend some time researching what the best practices are when using them.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Cloud">
+<a class="anchor" href="#Cloud" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cloud<a class="anchor-link" href="#Cloud"> </a>
+</h2>
+<p>When you run software in a machine in the cloud most likely you are running an application on top of an OS that is virtualized, in other words, there is another layer (at least) between your application and the hardware. That means your application might be fighting for resources, especially page cache. If you assume that part of the data you are querying is in memory but really it’s not because another guest has it, then your API response time percentiles are going to grow.</p>
+<p>A great <a href="https://www.infoq.com/presentations/low-latency-cloud-oss/">talk</a> from Mark Price about this is Achieving Low-Latency in the Cloud with OSS.</p>
+<p>On the other hand, with cloud you can have cheap storage and “unlimited” network and resources, so if your data grows in a non-predictable way that’s something that you should value when making the decision on where to put your data. You can also take advantage of spot instances to deal with the load and use lots of smaller instances, this means if one of them goes down the problem is small.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Course-Outline">
+<a class="anchor" href="#Course-Outline" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/01_Getting_Started.ipynb">Course Outline</a><a class="anchor-link" href="#Course-Outline"> </a>
+</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Previous Notebook</th>
+<th style="text-align:left">Next Notebook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1. <a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/01_Getting_Started.ipynb">Getting Started - How to Run the Notebooks in Google Colab and Tinybird</a>
+</td>
+<td style="text-align:left">3. <a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/03_Use_the_Right_Database.ipynb">Use the Right Database</a>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/fastpages/real-time/analytics/queries/sql/2021/09/01/ch02_Software_and_Hardware.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/fastpages/"></data>
+  
+    <div class="wrapper">
+  
+      <div class="footer-col-wrapper">
+        <div class="footer-col">
+        </div>
+        <div class="footer-col">
+          <p>Must-knows for practioners of real-time analytics</p>
+        </div>
+      </div>
+  
+      <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/tinybirdco" title="tinybirdco"><svg class="svg-icon grey"><use xlink:href="/fastpages/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tinybirdco" title="tinybirdco"><svg class="svg-icon grey"><use xlink:href="/fastpages/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+  
+    </div>
+  
+  </footer></body>
+
+</html>
