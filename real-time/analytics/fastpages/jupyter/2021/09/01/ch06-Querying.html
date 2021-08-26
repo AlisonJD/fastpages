@@ -132,9 +132,7 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<details class="description">
-      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p><div class="input">
+<div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
@@ -148,8 +146,7 @@ window.onload = wrap_img;
     </div>
 </div>
 </div>
-</p>
-    </details>
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -175,7 +172,8 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tinybird</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span><span class="n">U</span>
+<div class=" highlight hl-python"><pre><span></span><span class="c1">#@title Install Tinybird CLI and your token</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tinybird</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span><span class="n">U</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -200,7 +198,8 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">write_text_to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="c1">#@title Helper function</span>
+<span class="k">def</span> <span class="nf">write_text_to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 
