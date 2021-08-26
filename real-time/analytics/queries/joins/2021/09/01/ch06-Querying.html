@@ -139,6 +139,8 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h1"><a href="#Querying">Querying </a>
 <ul>
+<li class="toc-entry toc-h2"><a href="#Set-Up-Colab-Environment">Set Up Colab Environment </a></li>
+<li class="toc-entry toc-h2"><a href="#Notebook-Resources">Notebook Resources </a></li>
 <li class="toc-entry toc-h2"><a href="#How-Analytics-Databases-Work">How Analytics Databases Work </a></li>
 <li class="toc-entry toc-h2"><a href="#Query-just-the-Data-you-Need">Query just the Data you Need </a></li>
 <li class="toc-entry toc-h2"><a href="#Data-Order-is-Key">Data Order is Key </a></li>
@@ -181,6 +183,27 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Querying">
+<a class="anchor" href="#Querying" aria-hidden="true"><span class="octicon octicon-link"></span></a>Querying<a class="anchor-link" href="#Querying"> </a>
+</h1>
+<p>Everything discussed so far is valuable but not enough to provide real value: only when you turn data into information can you start delivering real value. Here we will connect the dots with all the previous sections.</p>
+<p>The key is understanding what happens when you write an SQL query. We are not just talking about understanding an “EXPLAIN ANALYZE” but also all the pragmatic things that you are interested in: understanding joins, denormalization, when to group, when to filter, etc. The concepts covered here are fundamental for your day-to-day work.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Set-Up-Colab-Environment">
+<a class="anchor" href="#Set-Up-Colab-Environment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set Up Colab Environment<a class="anchor-link" href="#Set-Up-Colab-Environment"> </a>
+</h2>
+</div>
+</div>
+</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -308,7 +331,9 @@ Copy the admin token from https://ui.tinybird.co/tokens and paste it here:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Notebook Resources</p>
+<h2 id="Notebook-Resources">
+<a class="anchor" href="#Notebook-Resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notebook Resources<a class="anchor-link" href="#Notebook-Resources"> </a>
+</h2>
 <table>
 <thead>
 <tr>
@@ -331,18 +356,6 @@ Copy the admin token from https://ui.tinybird.co/tokens and paste it here:
 </tr>
 </tbody>
 </table>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Querying">
-<a class="anchor" href="#Querying" aria-hidden="true"><span class="octicon octicon-link"></span></a>Querying<a class="anchor-link" href="#Querying"> </a>
-</h1>
-<p>Everything discussed so far is valuable but not enough to provide real value: only when you turn data into information can you start delivering real value. Here we will connect the dots with all the previous sections.</p>
-<p>The key is understanding what happens when you write an SQL query. We are not just talking about understanding an “EXPLAIN ANALYZE” but also all the pragmatic things that you are interested in: understanding joins, denormalization, when to group, when to filter, etc. The concepts covered here are fundamental for your day-to-day work.</p>
 
 </div>
 </div>
@@ -2324,12 +2337,17 @@ FROM numbers(50000000)</code></pre>
 <h2 id="Pipe-for-Querying">
 <a class="anchor" href="#Pipe-for-Querying" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pipe for Querying<a class="anchor-link" href="#Pipe-for-Querying"> </a>
 </h2>
+<p>ch_06_querying.pipe</p>
+
 </div>
 </div>
 </div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
@@ -2595,6 +2613,7 @@ FROM numbers(50000000)</code></pre>
 </div>
 </div>
 
+    </details>
 </div>
     
 
