@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Principles of Real-Time Analytics Course | Must-knows for practioners of real-time analytocs</title>
+<title>Chapter 6 Querying | Principles of Real-Time Analytics Course</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Principles of Real-Time Analytics Course" />
+<meta property="og:title" content="Chapter 6 Querying" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Chapter 6 Querying" />
-<meta property="og:description" content="Chapter 6 Querying" />
-<link rel="canonical" href="https://alisonjd.github.io/fastpages/real-time/analytics/fastpages/jupyter/2021/09/01/ch06-Querying.html" />
-<meta property="og:url" content="https://alisonjd.github.io/fastpages/real-time/analytics/fastpages/jupyter/2021/09/01/ch06-Querying.html" />
+<meta name="description" content="Understanding joins, denormalization, when to group, when to filter, …" />
+<meta property="og:description" content="Understanding joins, denormalization, when to group, when to filter, …" />
+<link rel="canonical" href="https://alisonjd.github.io/fastpages/real-time/analytics/queries/joins/2021/09/01/ch06-Querying.html" />
+<meta property="og:url" content="https://alisonjd.github.io/fastpages/real-time/analytics/queries/joins/2021/09/01/ch06-Querying.html" />
 <meta property="og:site_name" content="Principles of Real-Time Analytics Course" />
 <meta property="og:image" content="https://alisonjd.github.io/fastpages/images/tb_Logo%20Navbar.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-09-01T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2021-09-01T00:00:00-05:00","url":"https://alisonjd.github.io/fastpages/real-time/analytics/fastpages/jupyter/2021/09/01/ch06-Querying.html","@type":"BlogPosting","image":"https://alisonjd.github.io/fastpages/images/tb_Logo%20Navbar.png","headline":"Principles of Real-Time Analytics Course","dateModified":"2021-09-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://alisonjd.github.io/fastpages/real-time/analytics/fastpages/jupyter/2021/09/01/ch06-Querying.html"},"description":"Chapter 6 Querying","@context":"https://schema.org"}</script>
+{"datePublished":"2021-09-01T00:00:00-05:00","url":"https://alisonjd.github.io/fastpages/real-time/analytics/queries/joins/2021/09/01/ch06-Querying.html","@type":"BlogPosting","image":"https://alisonjd.github.io/fastpages/images/tb_Logo%20Navbar.png","headline":"Chapter 6 Querying","dateModified":"2021-09-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://alisonjd.github.io/fastpages/real-time/analytics/queries/joins/2021/09/01/ch06-Querying.html"},"description":"Understanding joins, denormalization, when to group, when to filter, …","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/fastpages/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://alisonjd.github.io/fastpages/feed.xml" title="Principles of Real-Time Analytics Course" /><link rel="shortcut icon" type="image/x-icon" href="/fastpages/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -72,7 +72,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Principles of Real-Time Analytics Course</h1><p class="page-description">Chapter 6 Querying</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-01T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Chapter 6 Querying</h1><p class="page-description">Understanding joins, denormalization, when to group, when to filter, ...</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-01T00:00:00-05:00" itemprop="datePublished">
         Sep 1, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -91,10 +91,10 @@ window.onload = wrap_img;
         <a class="category-tags-link" href="/fastpages/categories/#analytics">analytics</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/fastpages/categories/#fastpages">fastpages</a>
+        <a class="category-tags-link" href="/fastpages/categories/#queries">queries</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/fastpages/categories/#jupyter">jupyter</a>
+        <a class="category-tags-link" href="/fastpages/categories/#joins">joins</a>
         
       
       </p>
@@ -120,7 +120,43 @@ window.onload = wrap_img;
       </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <!--
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Querying">Querying </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#How-Analytics-Databases-Work">How Analytics Databases Work </a></li>
+<li class="toc-entry toc-h2"><a href="#Query-just-the-Data-you-Need">Query just the Data you Need </a></li>
+<li class="toc-entry toc-h2"><a href="#Data-Order-is-Key">Data Order is Key </a></li>
+<li class="toc-entry toc-h2"><a href="#Lightweight-and-Indexed-Operations-First-(filters,-prefilters)">Lightweight and Indexed Operations First (filters, prefilters) </a></li>
+<li class="toc-entry toc-h2"><a href="#Understanding-Algorithmic-Complexity">Understanding Algorithmic Complexity </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Do-Less-Complex-Queries-First">Do Less Complex Queries First </a></li>
+<li class="toc-entry toc-h3"><a href="#Formula-for-the-Time-a-Query-Takes">Formula for the Time a Query Takes </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Use-Joins-Instead-of-Denormalizing">Use Joins Instead of Denormalizing </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#How-You-Should-Do-Joins">How You Should Do Joins </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Tip-1:-Join-on-a-Single-Column-using-Equality">Tip 1: Join on a Single Column using Equality </a></li>
+<li class="toc-entry toc-h4"><a href="#Tip-2:-Join-After-Filtering">Tip 2: Join After Filtering </a></li>
+<li class="toc-entry toc-h4"><a href="#Tip-3:-Collapse-Columns-Before-Join">Tip 3: Collapse Columns Before Join </a></li>
+<li class="toc-entry toc-h4"><a href="#Tip-4:-Use-Hash-Access-Join">Tip 4: Use Hash Access Join </a></li>
+<li class="toc-entry toc-h4"><a href="#Tip-5:-Use-Group-Array-Join">Tip 5: Use Group Array Join </a></li>
+<li class="toc-entry toc-h4"><a href="#Tip-6:-Test-Grouping-Before-or-After-a-Join">Tip 6: Test Grouping Before or After a Join </a></li>
+<li class="toc-entry toc-h4"><a href="#Tip-7:-Use-IN-(subquery)-Instead-of-JOIN-for-Filtering">Tip 7: Use IN (subquery) Instead of JOIN for Filtering </a></li>
+<li class="toc-entry toc-h4"><a href="#Tip-8:-Avoid-Distributed-Joins.">Tip 8: Avoid Distributed Joins. </a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Parallelization-Doesn't-Always-Help">Parallelization Doesn&#39;t Always Help </a></li>
+<li class="toc-entry toc-h2"><a href="#Use-the-Right-Algorithm-and-the-Best-Function-for-the-Job">Use the Right Algorithm and the Best Function for the Job </a></li>
+<li class="toc-entry toc-h2"><a href="#Key-Points-for-Queries">Key Points for Queries </a></li>
+<li class="toc-entry toc-h2"><a href="#Pipe-for-Querying">Pipe for Querying </a></li>
+<li class="toc-entry toc-h2"><a href="#Course-Outline">Course Outline </a></li>
+</ul>
+</li>
+</ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -138,15 +174,18 @@ window.onload = wrap_img;
     <div class="input_area">
 <div class=" highlight hl-python"><pre><span></span><span class="c1">#@title Mount your Google Drive to save and use local files</span>
 <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/gdrive&#39;</span><span class="p">,</span> <span class="n">force_remount</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">'/content/gdrive'</span><span class="p">,</span> <span class="n">force_remount</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="o">%</span> <span class="n">cd</span> <span class="s2">&quot;/content/gdrive/My Drive/Colab Notebooks/Tinybird&quot;</span>
+<span class="o">%</span> <span class="n">cd</span> <span class="s2">"/content/gdrive/My Drive/Colab Notebooks/Tinybird"</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
 <div class="output_wrapper">
 <div class="output">
 
@@ -162,6 +201,7 @@ window.onload = wrap_img;
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -177,10 +217,10 @@ window.onload = wrap_img;
 
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="s1">&#39;./datasources&#39;</span><span class="p">):</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="s1">'./datasources'</span><span class="p">):</span>
   <span class="err">!</span><span class="n">tb</span> <span class="n">init</span>
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;.tinyb&#39;</span><span class="p">):</span> 
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">'.tinyb'</span><span class="p">):</span> 
   <span class="err">!</span><span class="n">tb</span> <span class="n">auth</span>
 </pre></div>
 
@@ -200,7 +240,7 @@ window.onload = wrap_img;
     <div class="input_area">
 <div class=" highlight hl-python"><pre><span></span><span class="c1">#@title Helper function</span>
 <span class="k">def</span> <span class="nf">write_text_to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -210,11 +250,13 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Notebook Resources</p>
 <table>
-<thead><tr>
+<thead>
+<tr>
 <th style="text-align:left">Use</th>
 <th style="text-align:left">Create</th>
 </tr>
@@ -238,17 +280,25 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Querying">Querying<a class="anchor-link" href="#Querying"> </a></h1><p>Everything discussed so far is valuable but not enough to provide real value: only when you turn data into information can you start delivering real value. Here we will connect the dots with all the previous sections.</p>
+<h1 id="Querying">
+<a class="anchor" href="#Querying" aria-hidden="true"><span class="octicon octicon-link"></span></a>Querying<a class="anchor-link" href="#Querying"> </a>
+</h1>
+<p>Everything discussed so far is valuable but not enough to provide real value: only when you turn data into information can you start delivering real value. Here we will connect the dots with all the previous sections.</p>
 <p>The key is understanding what happens when you write an SQL query. We are not just talking about understanding an “EXPLAIN ANALYZE” but also all the pragmatic things that you are interested in: understanding joins, denormalization, when to group, when to filter, etc. The concepts covered here are fundamental for your day-to-day work.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-Analytics-Databases-Work">How Analytics Databases Work<a class="anchor-link" href="#How-Analytics-Databases-Work"> </a></h2><p>The two important things that analytics databases do to improve query times are</p>
+<h2 id="How-Analytics-Databases-Work">
+<a class="anchor" href="#How-Analytics-Databases-Work" aria-hidden="true"><span class="octicon octicon-link"></span></a>How Analytics Databases Work<a class="anchor-link" href="#How-Analytics-Databases-Work"> </a>
+</h2>
+<p>The two important things that analytics databases do to improve query times are</p>
 <ol>
 <li>Parallelization at all levels<ul>
 <li>CPU: use different CPUs to process splitting the load using the map-reduce algorithms</li>
@@ -262,7 +312,8 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Analytics databases leverage these two characteristics to be as efficient as possible and do as many tricks as possible during the query planning stage.</p>
 <p>Let’s see an example with a simple sum in a setup with several machines:</p>
@@ -281,16 +332,24 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Query-just-the-Data-you-Need">Query just the Data you Need<a class="anchor-link" href="#Query-just-the-Data-you-Need"> </a></h2><p>There is no faster query than the one that reads no data. This seems obvious but it’s really important. If you need three columns, just get three columns and use indexes. The less data you read the faster the query will be. This is valid for any database or data system.</p>
+<h2 id="Query-just-the-Data-you-Need">
+<a class="anchor" href="#Query-just-the-Data-you-Need" aria-hidden="true"><span class="octicon octicon-link"></span></a>Query just the Data you Need<a class="anchor-link" href="#Query-just-the-Data-you-Need"> </a>
+</h2>
+<p>There is no faster query than the one that reads no data. This seems obvious but it’s really important. If you need three columns, just get three columns and use indexes. The less data you read the faster the query will be. This is valid for any database or data system.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-Order-is-Key">Data Order is Key<a class="anchor-link" href="#Data-Order-is-Key"> </a></h2><p>Remember that memory speed is faster if you have data in the same area.</p>
+<h2 id="Data-Order-is-Key">
+<a class="anchor" href="#Data-Order-is-Key" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Order is Key<a class="anchor-link" href="#Data-Order-is-Key"> </a>
+</h2>
+<p>Remember that memory speed is faster if you have data in the same area.</p>
 <p>If we try to execute a query over a table where the data we want is scattered all over the disk/memory then the computer is going to have a hard time getting all the data:</p>
 <ul>
 <li>the OS will need to get a lot of pages from the disk into memory. Only part of the data will be useful so you will be reading more data than needed.</li>
@@ -302,35 +361,49 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Lightweight-and-Indexed-Operations-First-(filters,-prefilters)">Lightweight and Indexed Operations First (filters, prefilters)<a class="anchor-link" href="#Lightweight-and-Indexed-Operations-First-(filters,-prefilters)"> </a></h2><p>This is also obvious but do leverage the indexes as much as possible. Try to use prefilters if possible when your filters are highly selective. Prefiltering allows you to discard a huge amount of data before fetching the rest of the table. Most databases optimize this by themselves but use it explicitly because they sometimes fail to optimize.</p>
+<h2 id="Lightweight-and-Indexed-Operations-First-(filters,-prefilters)">
+<a class="anchor" href="#Lightweight-and-Indexed-Operations-First-(filters,-prefilters)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lightweight and Indexed Operations First (filters, prefilters)<a class="anchor-link" href="#Lightweight-and-Indexed-Operations-First-(filters,-prefilters)"> </a>
+</h2>
+<p>This is also obvious but do leverage the indexes as much as possible. Try to use prefilters if possible when your filters are highly selective. Prefiltering allows you to discard a huge amount of data before fetching the rest of the table. Most databases optimize this by themselves but use it explicitly because they sometimes fail to optimize.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Understanding-Algorithmic-Complexity">Understanding Algorithmic Complexity<a class="anchor-link" href="#Understanding-Algorithmic-Complexity"> </a></h2><p>Not all the queries use the same algorithms. This may seem obvious too but it is very easy to forget.</p>
+<h2 id="Understanding-Algorithmic-Complexity">
+<a class="anchor" href="#Understanding-Algorithmic-Complexity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Understanding Algorithmic Complexity<a class="anchor-link" href="#Understanding-Algorithmic-Complexity"> </a>
+</h2>
+<p>Not all the queries use the same algorithms. This may seem obvious too but it is very easy to forget.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Do-Less-Complex-Queries-First">Do Less Complex Queries First<a class="anchor-link" href="#Do-Less-Complex-Queries-First"> </a></h3><p>Taking algorithmic complexity into account, you should always start doing the less complex operations first in order to reduce the data amount as much as possible as soon as possible because the less data that reaches the complex algorithm, the better.</p>
+<h3 id="Do-Less-Complex-Queries-First">
+<a class="anchor" href="#Do-Less-Complex-Queries-First" aria-hidden="true"><span class="octicon octicon-link"></span></a>Do Less Complex Queries First<a class="anchor-link" href="#Do-Less-Complex-Queries-First"> </a>
+</h3>
+<p>Taking algorithmic complexity into account, you should always start doing the less complex operations first in order to reduce the data amount as much as possible as soon as possible because the less data that reaches the complex algorithm, the better.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To understand this, let’s look at a Tinybird example comparing simple aggregation vs group (with different cardinality) vs quantiles on the New York City Taxi Trip dataset.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A simple filter is cheap:</p>
 
@@ -344,7 +417,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT sum(trip_distance) FROM taxi WHERE passenger_count = 4&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT sum(trip_distance) FROM taxi WHERE passenger_count = 4"</span>
 </pre></div>
 
     </div>
@@ -375,7 +448,8 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Even cheaper if it uses some indexes. If you check the taxi data source, you can see that the field <code>tpep_pickup_datetime</code> is included in the sorting keys. This index drastically reduces the amount of data scanned.</p>
 
@@ -389,7 +463,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT sum(trip_distance) FROM taxi WHERE tpep_pickup_datetime BETWEEN &#39;2019-01-08 00:00:00&#39; AND &#39;2019-01-10 00:00:00&#39;&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT sum(trip_distance) FROM taxi WHERE tpep_pickup_datetime BETWEEN '2019-01-08 00:00:00' AND '2019-01-10 00:00:00'"</span>
 </pre></div>
 
     </div>
@@ -420,7 +494,8 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A group is less cheap:</p>
 
@@ -434,7 +509,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT passenger_count, sum(trip_distance) FROM taxi GROUP BY passenger_count&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT passenger_count, sum(trip_distance) FROM taxi GROUP BY passenger_count"</span>
 </pre></div>
 
     </div>
@@ -474,7 +549,8 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>But if we aggregate with more cardinality:</p>
 
@@ -488,7 +564,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT pulocationid, sum(trip_distance) FROM taxi GROUP BY pulocationid LIMIT 10&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT pulocationid, sum(trip_distance) FROM taxi GROUP BY pulocationid LIMIT 10"</span>
 </pre></div>
 
     </div>
@@ -528,12 +604,15 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Aggregation functions vary in complexity:</p>
 <ul>
-<li><code>sum</code>, <code>avg</code>, `count`` are cheap</li>
-<li><code>quantiles</code>, <code>uniq</code> are more expensive.</li>
+<li>
+<code>sum</code>, <code>avg</code>, `count`` are cheap</li>
+<li>
+<code>quantiles</code>, <code>uniq</code> are more expensive.</li>
 </ul>
 
 </div>
@@ -546,7 +625,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT sum(trip_distance) FROM taxi&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT sum(trip_distance) FROM taxi"</span>
 </pre></div>
 
     </div>
@@ -584,7 +663,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT avg(trip_distance) FROM taxi&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT avg(trip_distance) FROM taxi"</span>
 </pre></div>
 
     </div>
@@ -622,7 +701,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT count(trip_distance) FROM taxi&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT count(trip_distance) FROM taxi"</span>
 </pre></div>
 
     </div>
@@ -660,7 +739,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT quantiles(0.99)(trip_distance) FROM taxi&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT quantiles(0.99)(trip_distance) FROM taxi"</span>
 </pre></div>
 
     </div>
@@ -698,7 +777,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT uniq(trip_distance) FROM taxi&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT uniq(trip_distance) FROM taxi"</span>
 </pre></div>
 
     </div>
@@ -729,16 +808,21 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The <code>sum</code> takes less than half of the time of <code>quantiles</code> processing the same amount of data.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Formula-for-the-Time-a-Query-Takes">Formula for the Time a Query Takes<a class="anchor-link" href="#Formula-for-the-Time-a-Query-Takes"> </a></h3><p>To make an estimation of the time a query is going to take, it is good to have a formula like this in the head:</p>
+<h3 id="Formula-for-the-Time-a-Query-Takes">
+<a class="anchor" href="#Formula-for-the-Time-a-Query-Takes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Formula for the Time a Query Takes<a class="anchor-link" href="#Formula-for-the-Time-a-Query-Takes"> </a>
+</h3>
+<p>To make an estimation of the time a query is going to take, it is good to have a formula like this in your head:</p>
 
 <pre><code>data_size * compression_factor * main_memory_speed 
 + data_decompression_factor/cores
@@ -758,15 +842,20 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Use-Joins-Instead-of-Denormalizing">Use Joins Instead of Denormalizing<a class="anchor-link" href="#Use-Joins-Instead-of-Denormalizing"> </a></h2><p>People generally say that joins are slow and in some places joins are forbidden. For example, some banks avoid joins as much as possible in their legacy databases to avoid overloading them.</p>
+<h2 id="Use-Joins-Instead-of-Denormalizing">
+<a class="anchor" href="#Use-Joins-Instead-of-Denormalizing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use Joins Instead of Denormalizing<a class="anchor-link" href="#Use-Joins-Instead-of-Denormalizing"> </a>
+</h2>
+<p>People generally say that joins are slow and in some places joins are forbidden. For example, some banks avoid joins as much as possible in their legacy databases to avoid overloading them.</p>
 <p>However, sometimes you can’t avoid doing joins. If done in the right way they are not so slow. They may even sometimes be better because they simplify ingestion.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We talked previously about events and dimensions tables. The combination of those tables to achieve denormalization is one of the most common uses for joins:</p>
 <p><code>SELECT a, b, c, d.e, d.f FROM events JOIN dimension AS d USING a</code></p>
@@ -776,15 +865,22 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="How-You-Should-Do-Joins">How You Should Do Joins<a class="anchor-link" href="#How-You-Should-Do-Joins"> </a></h3>
+<h3 id="How-You-Should-Do-Joins">
+<a class="anchor" href="#How-You-Should-Do-Joins" aria-hidden="true"><span class="octicon octicon-link"></span></a>How You Should Do Joins<a class="anchor-link" href="#How-You-Should-Do-Joins"> </a>
+</h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-1:-Join-on-a-Single-Column-using-Equality">Tip 1: Join on a Single Column using Equality<a class="anchor-link" href="#Tip-1:-Join-on-a-Single-Column-using-Equality"> </a></h4><p>Try to join using just one column and always doing equal comparisons. This will allow you to use hash join (or whatever algorithm the database of your choice uses to do fast joins).</p>
+<h4 id="Tip-1:-Join-on-a-Single-Column-using-Equality">
+<a class="anchor" href="#Tip-1:-Join-on-a-Single-Column-using-Equality" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 1: Join on a Single Column using Equality<a class="anchor-link" href="#Tip-1:-Join-on-a-Single-Column-using-Equality"> </a>
+</h4>
+<p>Try to join using just one column and always doing equal comparisons. This will allow you to use hash join (or whatever algorithm the database of your choice uses to do fast joins).</p>
 <p><code>SELECT a, b, c, d FROM events 
 JOIN products USING a</code></p>
 <p>Hash tables in ClickHouse are optimised for these sorts of operations.</p>
@@ -792,9 +888,13 @@ JOIN products USING a</code></p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-2:-Join-After-Filtering">Tip 2: Join After Filtering<a class="anchor-link" href="#Tip-2:-Join-After-Filtering"> </a></h4><p>Bad:
+<h4 id="Tip-2:-Join-After-Filtering">
+<a class="anchor" href="#Tip-2:-Join-After-Filtering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 2: Join After Filtering<a class="anchor-link" href="#Tip-2:-Join-After-Filtering"> </a>
+</h4>
+<p>Bad:
 <code>SELECT a, b, c, d FROM events 
 JOIN dimensions USING a WHERE b &gt; 10</code></p>
 <p>For example, using Tinybird's events and products datasets.</p>
@@ -809,8 +909,8 @@ JOIN dimensions USING a WHERE b &gt; 10</code></p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT date, product_id as sku, user_id, event </span><span class="se">\</span>
-<span class="s2">FROM events JOIN products USING sku WHERE user_id &gt; 800000&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT date, product_id as sku, user_id, event </span><span class="se">\</span>
+<span class="s2">FROM events JOIN products USING sku WHERE user_id &gt; 800000"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
 </pre></div>
 
     </div>
@@ -842,7 +942,8 @@ event: remove_item_from_cart
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Better:</p>
 
@@ -862,9 +963,9 @@ USING a</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT date, product_id AS sku, user_id, event </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT date, product_id AS sku, user_id, event </span><span class="se">\</span>
 <span class="s2">FROM (SELECT date, product_id, user_id, event FROM events WHERE user_id&gt; 800000) </span><span class="se">\</span>
-<span class="s2">JOIN products USING sku&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
+<span class="s2">JOIN products USING sku"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
 </pre></div>
 
     </div>
@@ -896,7 +997,8 @@ event: add_item_to_cart
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Another example, this time using the <code>taxi</code> data:</p>
 
@@ -910,11 +1012,11 @@ event: add_item_to_cart
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT passenger_count, trip_distance, ratecodeid, pulocationid, dolocationid, borough as puborough </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT passenger_count, trip_distance, ratecodeid, pulocationid, dolocationid, borough as puborough </span><span class="se">\</span>
 <span class="s2">FROM taxi </span><span class="se">\</span>
 <span class="s2">ANY LEFT JOIN taxi__zone_lookup </span><span class="se">\</span>
 <span class="s2">ON (pulocationid = locationid) </span><span class="se">\</span>
-<span class="s2">WHERE borough = &#39;Queens&#39;&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">11</span>
+<span class="s2">WHERE borough = 'Queens'"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">11</span>
 </pre></div>
 
     </div>
@@ -955,10 +1057,10 @@ puborough: Queens
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT passenger_count, trip_distance, ratecodeid, pulocationid, dolocationid, borough as puborough </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT passenger_count, trip_distance, ratecodeid, pulocationid, dolocationid, borough as puborough </span><span class="se">\</span>
 <span class="s2">FROM taxi </span><span class="se">\</span>
-<span class="s2">ANY LEFT JOIN (SELECT locationid, borough FROM taxi__zone_lookup WHERE borough = &#39;Queens&#39;) </span><span class="se">\</span>
-<span class="s2">ON (pulocationid = locationid)&quot;</span>  <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">11</span>
+<span class="s2">ANY LEFT JOIN (SELECT locationid, borough FROM taxi__zone_lookup WHERE borough = 'Queens') </span><span class="se">\</span>
+<span class="s2">ON (pulocationid = locationid)"</span>  <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">11</span>
 </pre></div>
 
     </div>
@@ -992,16 +1094,21 @@ puborough:
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Databases usually optimize this by themselves (hence these times may be very similar) but if the query is complex the query analyzer may not detect it, so it’s better to make these prefilters explicit.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-3:-Collapse-Columns-Before-Join">Tip 3: Collapse Columns Before Join<a class="anchor-link" href="#Tip-3:-Collapse-Columns-Before-Join"> </a></h4><p>If you have to join by several columns, try to collapse them.</p>
+<h4 id="Tip-3:-Collapse-Columns-Before-Join">
+<a class="anchor" href="#Tip-3:-Collapse-Columns-Before-Join" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 3: Collapse Columns Before Join<a class="anchor-link" href="#Tip-3:-Collapse-Columns-Before-Join"> </a>
+</h4>
+<p>If you have to join by several columns, try to collapse them.</p>
 <p>Bad:</p>
 
 <pre><code>SELECT a, b, c, d FROM events 
@@ -1016,7 +1123,8 @@ USING a_and_b_concatenated`</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a destination Data Source for the materialized view.</p>
 
@@ -1030,8 +1138,8 @@ USING a_and_b_concatenated`</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;datasources/taxi_filter_mv.datasource&quot;</span>
-<span class="n">text</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span><span class="o">=</span><span class="s2">"datasources/taxi_filter_mv.datasource"</span>
+<span class="n">text</span><span class="o">=</span><span class="s1">'''</span>
 <span class="s1">SCHEMA &gt;</span>
 <span class="s1">    `tpep_pickup_datetime` DateTime,</span>
 <span class="s1">    `tpep_dropoff_datetime` DateTime,</span>
@@ -1045,7 +1153,7 @@ USING a_and_b_concatenated`</code></pre>
 
 <span class="s1">ENGINE MergeTree</span>
 <span class="s1">ENGINE_SORTING_KEY tpep_pickup_datetime</span>
-<span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">'''</span>
 
 <span class="n">write_text_to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
@@ -1080,7 +1188,7 @@ USING a_and_b_concatenated`</code></pre>
 <pre>** Processing datasources/taxi_filter_mv.datasource
 ** Building dependencies
 ** Running taxi_filter_mv 
-<span class="ansi-green-intense-fg">** &#39;taxi_filter_mv&#39; created</span>
+<span class="ansi-green-intense-fg">** 'taxi_filter_mv' created</span>
 ** Not pushing fixtures
 </pre>
 </div>
@@ -1099,8 +1207,8 @@ USING a_and_b_concatenated`</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;pipes/taxi_filtered.pipe&#39;</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">'pipes/taxi_filtered.pipe'</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s1">'''</span>
 <span class="s1">DESCRIPTION &gt;</span>
 <span class="s1">  get taxi data from Feb 2019 to April 2019 and precalculate join keys from concatenated columns</span>
 
@@ -1119,11 +1227,11 @@ USING a_and_b_concatenated`</code></pre>
 <span class="s1">  concat(toString(pulocationid), toString(dolocationid), toString(passenger_count), toString(ratecodeid)) as key1,</span>
 <span class="s1">  concat(toString(dolocationid), toString(pulocationid), toString(passenger_count), toString(ratecodeid)) as key2</span>
 <span class="s1">FROM taxi</span>
-<span class="s1">WHERE toDate(tpep_pickup_datetime) BETWEEN &#39;2019-01-02&#39; AND &#39;2019-01-04&#39;</span>
+<span class="s1">WHERE toDate(tpep_pickup_datetime) BETWEEN '2019-01-02' AND '2019-01-04'</span>
 
 <span class="s1">TYPE materialized</span>
 <span class="s1">DATASOURCE taxi_filter_mv</span>
-<span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">'''</span>
 
 <span class="n">write_text_to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
@@ -1142,7 +1250,7 @@ USING a_and_b_concatenated`</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">push</span> <span class="s1">&#39;pipes/taxi_filtered.pipe&#39;</span>  <span class="o">--</span><span class="n">populate</span> <span class="o">--</span><span class="n">force</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">push</span> <span class="s1">'pipes/taxi_filtered.pipe'</span>  <span class="o">--</span><span class="n">populate</span> <span class="o">--</span><span class="n">force</span>
 </pre></div>
 
     </div>
@@ -1158,9 +1266,9 @@ USING a_and_b_concatenated`</code></pre>
 <pre>** Processing pipes/taxi_filtered.pipe
 ** Building dependencies
 ** Running taxi_filtered 
-** Materialized node &#39;taxi_filter&#39; using the Data Source &#39;taxi_filter_mv&#39;
+** Materialized node 'taxi_filter' using the Data Source 'taxi_filter_mv'
 ** Populating job url https://api.tinybird.co/v0/jobs/914eab47-fa66-4d78-b416-506ba78b4e29
-<span class="ansi-green-intense-fg">** &#39;taxi_filtered&#39; created</span>
+<span class="ansi-green-intense-fg">** 'taxi_filtered' created</span>
 ** Not pushing fixtures
 </pre>
 </div>
@@ -1179,7 +1287,7 @@ USING a_and_b_concatenated`</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="o">--</span><span class="nb">format</span> <span class="n">csv</span> <span class="s2">&quot;SELECT passenger_count, trip_distance, ratecodeid, t1.key1, t1.key2, t2.key1, t2.key2 </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="o">--</span><span class="nb">format</span> <span class="n">csv</span> <span class="s2">"SELECT passenger_count, trip_distance, ratecodeid, t1.key1, t1.key2, t2.key1, t2.key2 </span><span class="se">\</span>
 <span class="s2">FROM taxi_filtered t1 </span><span class="se">\</span>
 <span class="s2">JOIN  taxi_filtered t2 </span><span class="se">\</span>
 <span class="s2">ON ( </span><span class="se">\</span>
@@ -1187,7 +1295,7 @@ USING a_and_b_concatenated`</code></pre>
 <span class="s2">  and t2.pulocationid = t1.dolocationid </span><span class="se">\</span>
 <span class="s2">  and t1.passenger_count = t2.passenger_count </span><span class="se">\</span>
 <span class="s2">  and t1.ratecodeid = t2.ratecodeid </span><span class="se">\</span>
-<span class="s2">)&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span>
+<span class="s2">)"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span>
 </pre></div>
 
     </div>
@@ -1203,8 +1311,8 @@ USING a_and_b_concatenated`</code></pre>
 <pre>** Query took 1.894542963 seconds
 ** Rows read: 729,513
 ** Bytes read: 34.73 MB
-&#34;passenger_count&#34;,&#34;trip_distance&#34;,&#34;ratecodeid&#34;,&#34;key1&#34;,&#34;key2&#34;,&#34;t2.key1&#34;,&#34;t2.key2&#34;
-1,2.3,1,&#34;14825511&#34;,&#34;25514811&#34;,&#34;25514811&#34;,&#34;14825511&#34;
+"passenger_count","trip_distance","ratecodeid","key1","key2","t2.key1","t2.key2"
+1,2.3,1,"14825511","25514811","25514811","14825511"
 </pre>
 </div>
 </div>
@@ -1222,11 +1330,11 @@ USING a_and_b_concatenated`</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="o">--</span><span class="nb">format</span> <span class="n">csv</span> <span class="s2">&quot;SELECT passenger_count, trip_distance, ratecodeid, t1.key1, t1.key2, t2.key1, t2.key2 </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="o">--</span><span class="nb">format</span> <span class="n">csv</span> <span class="s2">"SELECT passenger_count, trip_distance, ratecodeid, t1.key1, t1.key2, t2.key1, t2.key2 </span><span class="se">\</span>
 <span class="s2">FROM taxi_filtered t1 </span><span class="se">\</span>
 <span class="s2">JOIN  taxi_filtered t2 </span><span class="se">\</span>
 <span class="s2">ON (t1.key1 = t2.key2) </span><span class="se">\</span>
-<span class="s2">&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span>
+<span class="s2">"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span>
 </pre></div>
 
     </div>
@@ -1242,8 +1350,8 @@ USING a_and_b_concatenated`</code></pre>
 <pre>** Query took 1.458210793 seconds
 ** Rows read: 754,089
 ** Bytes read: 26.02 MB
-&#34;passenger_count&#34;,&#34;trip_distance&#34;,&#34;ratecodeid&#34;,&#34;key1&#34;,&#34;key2&#34;,&#34;t2.key1&#34;,&#34;t2.key2&#34;
-1,2.3,1,&#34;14825511&#34;,&#34;25514811&#34;,&#34;25514811&#34;,&#34;14825511&#34;
+"passenger_count","trip_distance","ratecodeid","key1","key2","t2.key1","t2.key2"
+1,2.3,1,"14825511","25514811","25514811","14825511"
 </pre>
 </div>
 </div>
@@ -1254,9 +1362,13 @@ USING a_and_b_concatenated`</code></pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-4:-Use-Hash-Access-Join">Tip 4: Use Hash Access Join<a class="anchor-link" href="#Tip-4:-Use-Hash-Access-Join"> </a></h4><p>If your database supports hash access to dimensions tables, use it.</p>
+<h4 id="Tip-4:-Use-Hash-Access-Join">
+<a class="anchor" href="#Tip-4:-Use-Hash-Access-Join" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 4: Use Hash Access Join<a class="anchor-link" href="#Tip-4:-Use-Hash-Access-Join"> </a>
+</h4>
+<p>If your database supports hash access to dimensions tables, use it.</p>
 <p>Bad:</p>
 
 <pre><code>SELECT a, b, c, d FROM events 
@@ -1270,7 +1382,8 @@ USING a</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a join table with a Join engine (join table data is always located in the RAM so only keep the columns you need).</p>
 
@@ -1284,8 +1397,8 @@ USING a</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;datasources/products_join_sku.datasource&quot;</span>
-<span class="n">text</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span><span class="o">=</span><span class="s2">"datasources/products_join_sku.datasource"</span>
+<span class="n">text</span><span class="o">=</span><span class="s1">'''</span>
 <span class="s1">DESCRIPTION join engine added to the generated datasource</span>
 <span class="s1">SCHEMA &gt;</span>
 <span class="s1">    `sku` String,</span>
@@ -1293,11 +1406,11 @@ USING a</code></pre>
 <span class="s1">    `section_id` Int16,</span>
 <span class="s1">    `title` String</span>
 
-<span class="s1">ENGINE &quot;Join&quot;</span>
-<span class="s1">ENGINE_JOIN_STRICTNESS &quot;ANY&quot;</span>
-<span class="s1">ENGINE_JOIN_TYPE &quot;LEFT&quot;</span>
-<span class="s1">ENGINE_KEY_COLUMNS &quot;sku&quot;</span>
-<span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">ENGINE "Join"</span>
+<span class="s1">ENGINE_JOIN_STRICTNESS "ANY"</span>
+<span class="s1">ENGINE_JOIN_TYPE "LEFT"</span>
+<span class="s1">ENGINE_KEY_COLUMNS "sku"</span>
+<span class="s1">'''</span>
 
 <span class="n">write_text_to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
@@ -1332,7 +1445,7 @@ USING a</code></pre>
 <pre>** Processing ./datasources/products_join_sku.datasource
 ** Building dependencies
 ** Running products_join_sku 
-<span class="ansi-green-intense-fg">** &#39;products_join_sku&#39; created</span>
+<span class="ansi-green-intense-fg">** 'products_join_sku' created</span>
 ** Not pushing fixtures
 </pre>
 </div>
@@ -1368,7 +1481,7 @@ USING a</code></pre>
 <span class="ansi-green-intense-fg">** 🐥 done</span>
 <span class="ansi-green-intense-fg">** Appended 1200000 new rows</span>
 <span class="ansi-green-intense-fg">** Total rows in products_join_sku: None</span>
-<span class="ansi-green-intense-fg">** Data appended to Data Source &#39;products_join_sku&#39; successfully!</span>
+<span class="ansi-green-intense-fg">** Data appended to Data Source 'products_join_sku' successfully!</span>
 ** Data pushed to products_join_sku
 </pre>
 </div>
@@ -1404,7 +1517,7 @@ USING a</code></pre>
 <span class="ansi-green-intense-fg">** 🐥 done</span>
 <span class="ansi-green-intense-fg">** Appended 1241156 new rows</span>
 <span class="ansi-green-intense-fg">** Total rows in products_join_sku: None</span>
-<span class="ansi-green-intense-fg">** Data appended to Data Source &#39;products_join_sku&#39; successfully!</span>
+<span class="ansi-green-intense-fg">** Data appended to Data Source 'products_join_sku' successfully!</span>
 ** Data pushed to products_join_sku
 </pre>
 </div>
@@ -1423,8 +1536,8 @@ USING a</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT date, product_id, user_id, event, products.color </span><span class="se">\</span>
-<span class="s2">FROM events ANY LEFT JOIN products ON product_id=sku&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT date, product_id, user_id, event, products.color </span><span class="se">\</span>
+<span class="s2">FROM events ANY LEFT JOIN products ON product_id=sku"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
 </pre></div>
 
     </div>
@@ -1464,8 +1577,8 @@ color: orchid2
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT date, product_id, user_id, event, joinGet(products_join_sku, &#39;color&#39;, product_id) AS color </span><span class="se">\</span>
-<span class="s2">FROM events&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT date, product_id, user_id, event, joinGet(products_join_sku, 'color', product_id) AS color </span><span class="se">\</span>
+<span class="s2">FROM events"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
 </pre></div>
 
     </div>
@@ -1498,7 +1611,8 @@ color: chartreuse4
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In ClickHouse joinGet is a better way to join; using a join table that uses a Join engine.</p>
 <p>Here's another example, using the <code>taxi</code> data.</p>
@@ -1513,9 +1627,9 @@ color: chartreuse4
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT borough, pulocationid, tpep_pickup_datetime, tpep_dropoff_datetime </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT borough, pulocationid, tpep_pickup_datetime, tpep_dropoff_datetime </span><span class="se">\</span>
 <span class="s2">FROM taxi ANY LEFT JOIN taxi__zone_lookup </span><span class="se">\</span>
-<span class="s2">ON (locationid = pulocationid)&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<span class="s2">ON (locationid = pulocationid)"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
 </pre></div>
 
     </div>
@@ -1555,8 +1669,8 @@ color: chartreuse4
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT joinGet(&#39;taxi__zone_lookup&#39;, &#39;borough&#39;, pulocationid) as borough, pulocationid, tpep_pickup_datetime, tpep_dropoff_datetime </span><span class="se">\</span>
-<span class="s2">FROM taxi&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT joinGet('taxi__zone_lookup', 'borough', pulocationid) as borough, pulocationid, tpep_pickup_datetime, tpep_dropoff_datetime </span><span class="se">\</span>
+<span class="s2">FROM taxi"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
 </pre></div>
 
     </div>
@@ -1589,9 +1703,13 @@ color: chartreuse4
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-5:-Use-Group-Array-Join">Tip 5: Use Group Array Join<a class="anchor-link" href="#Tip-5:-Use-Group-Array-Join"> </a></h4><p>Use <code>goupArray</code> and <code>arrayJoin</code> to reduce the number of keys in a join to speed up the join.</p>
+<h4 id="Tip-5:-Use-Group-Array-Join">
+<a class="anchor" href="#Tip-5:-Use-Group-Array-Join" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 5: Use Group Array Join<a class="anchor-link" href="#Tip-5:-Use-Group-Array-Join"> </a>
+</h4>
+<p>Use <code>goupArray</code> and <code>arrayJoin</code> to reduce the number of keys in a join to speed up the join.</p>
 
 <pre><code>ClickHouse
 :) SET max_threads = 4
@@ -1684,7 +1802,8 @@ FORMAT Null
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Using the <code>taxi</code> data for a more complex query in Tinybird:</p>
 
@@ -1698,7 +1817,7 @@ FORMAT Null
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT </span><span class="se">\</span>
 <span class="s2">  tpep_dropoff_datetime, </span><span class="se">\</span>
 <span class="s2">  dolocationid, </span><span class="se">\</span>
 <span class="s2">  b.dolocationid next_location, </span><span class="se">\</span>
@@ -1706,15 +1825,15 @@ FORMAT Null
 <span class="s2">FROM ( </span><span class="se">\</span>
 <span class="s2">  SELECT * </span><span class="se">\</span>
 <span class="s2">  FROM taxi </span><span class="se">\</span>
-<span class="s2">  WHERE toDate(tpep_dropoff_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span><span class="se">\</span>
+<span class="s2">  WHERE toDate(tpep_dropoff_datetime) IN ('2019-01-02', '2019-01-04') </span><span class="se">\</span>
 <span class="s2">) a </span><span class="se">\</span>
 <span class="s2">ALL LEFT JOIN ( </span><span class="se">\</span>
 <span class="s2">  SELECT pulocationid, dolocationid, tpep_pickup_datetime </span><span class="se">\</span>
 <span class="s2">  FROM taxi </span><span class="se">\</span>
-<span class="s2">  WHERE toDate(tpep_pickup_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span><span class="se">\</span>
+<span class="s2">  WHERE toDate(tpep_pickup_datetime) IN ('2019-01-02', '2019-01-04') </span><span class="se">\</span>
 <span class="s2">) b </span><span class="se">\</span>
 <span class="s2">ON (a.dolocationid = b.pulocationid) </span><span class="se">\</span>
-<span class="s2">WHERE tpep_dropoff_datetime BETWEEN next_time - INTERVAL 10 MINUTE AND next_time&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<span class="s2">WHERE tpep_dropoff_datetime BETWEEN next_time - INTERVAL 10 MINUTE AND next_time"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
 </pre></div>
 
     </div>
@@ -1754,7 +1873,7 @@ FORMAT Null
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT </span><span class="se">\</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT </span><span class="se">\</span>
 <span class="s2">  tpep_dropoff_datetime, </span><span class="se">\</span>
 <span class="s2">  dolocationid, </span><span class="se">\</span>
 <span class="s2">  next_locations.1 as next_location, </span><span class="se">\</span>
@@ -1767,17 +1886,17 @@ FORMAT Null
 <span class="s2">  FROM ( </span><span class="se">\</span>
 <span class="s2">    SELECT * </span><span class="se">\</span>
 <span class="s2">    FROM taxi </span><span class="se">\</span>
-<span class="s2">    WHERE toDate(tpep_dropoff_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span><span class="se">\</span>
+<span class="s2">    WHERE toDate(tpep_dropoff_datetime) IN ('2019-01-02', '2019-01-04') </span><span class="se">\</span>
 <span class="s2">  ) a </span><span class="se">\</span>
 <span class="s2">  ALL LEFT JOIN ( </span><span class="se">\</span>
 <span class="s2">    SELECT pulocationid, groupArray((dolocationid, tpep_pickup_datetime)) next_locations </span><span class="se">\</span>
 <span class="s2">    FROM taxi </span><span class="se">\</span>
-<span class="s2">    WHERE toDate(tpep_pickup_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span><span class="se">\</span>
+<span class="s2">    WHERE toDate(tpep_pickup_datetime) IN ('2019-01-02', '2019-01-04') </span><span class="se">\</span>
 <span class="s2">    GROUP BY pulocationid </span><span class="se">\</span>
 <span class="s2">  ) b </span><span class="se">\</span>
 <span class="s2">  ON (a.dolocationid = b.pulocationid) </span><span class="se">\</span>
 <span class="s2">) </span><span class="se">\</span>
-<span class="s2">WHERE tpep_dropoff_datetime BETWEEN next_time - INTERVAL 10 MINUTE AND next_time&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
+<span class="s2">WHERE tpep_dropoff_datetime BETWEEN next_time - INTERVAL 10 MINUTE AND next_time"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span>
 </pre></div>
 
     </div>
@@ -1810,17 +1929,25 @@ FORMAT Null
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-6:-Test-Grouping-Before-or-After-a-Join">Tip 6: Test Grouping Before or After a Join<a class="anchor-link" href="#Tip-6:-Test-Grouping-Before-or-After-a-Join"> </a></h4><p>Sometimes joins work pretty well. Let’s say we have a high cardinality column and we need to group by it. Grouping is an expensive operation, especially with high cardinality, so if a join reduces the cardinality it’s sometimes worth doing it before the join.</p>
+<h4 id="Tip-6:-Test-Grouping-Before-or-After-a-Join">
+<a class="anchor" href="#Tip-6:-Test-Grouping-Before-or-After-a-Join" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 6: Test Grouping Before or After a Join<a class="anchor-link" href="#Tip-6:-Test-Grouping-Before-or-After-a-Join"> </a>
+</h4>
+<p>Sometimes joins work pretty well. Let’s say we have a high cardinality column and we need to group by it. Grouping is an expensive operation, especially with high cardinality, so if a join reduces the cardinality it’s sometimes worth doing it before the join.</p>
 <p>Depending on the granularity, the grouping algorithm you are using and how your table is sorted it may happen the other way round, that grouping before joining is faster. When this is not clear, the best approach is to test which performs better.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-7:-Use-IN-(subquery)-Instead-of-JOIN-for-Filtering">Tip 7: Use IN (subquery) Instead of JOIN for Filtering<a class="anchor-link" href="#Tip-7:-Use-IN-(subquery)-Instead-of-JOIN-for-Filtering"> </a></h4><p>Bad:</p>
+<h4 id="Tip-7:-Use-IN-(subquery)-Instead-of-JOIN-for-Filtering">
+<a class="anchor" href="#Tip-7:-Use-IN-(subquery)-Instead-of-JOIN-for-Filtering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 7: Use IN (subquery) Instead of JOIN for Filtering<a class="anchor-link" href="#Tip-7:-Use-IN-(subquery)-Instead-of-JOIN-for-Filtering"> </a>
+</h4>
+<p>Bad:</p>
 
 <pre><code>SELECT a, b, c, d FROM events 
 JOIN dimensions 
@@ -1840,7 +1967,7 @@ WHERE a IN (SELECT a FROM dimensions)</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT date, product_id AS sku, user_id, event FROM events JOIN products USING sku&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT date, product_id AS sku, user_id, event FROM events JOIN products USING sku"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
 </pre></div>
 
     </div>
@@ -1879,7 +2006,7 @@ event: view
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT date, product_id AS sku, user_id, event FROM events WHERE sku IN (SELECT sku FROM products)&quot;</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT date, product_id AS sku, user_id, event FROM events WHERE sku IN (SELECT sku FROM products)"</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">9</span>
 </pre></div>
 
     </div>
@@ -1911,16 +2038,24 @@ event: search
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Tip-8:-Avoid-Distributed-Joins.">Tip 8: Avoid Distributed Joins.<a class="anchor-link" href="#Tip-8:-Avoid-Distributed-Joins."> </a></h4><p>It is better to have a copy of the data you want to join (the dimensions tables) in each machine.</p>
+<h4 id="Tip-8:-Avoid-Distributed-Joins.">
+<a class="anchor" href="#Tip-8:-Avoid-Distributed-Joins." aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 8: Avoid Distributed Joins.<a class="anchor-link" href="#Tip-8:-Avoid-Distributed-Joins."> </a>
+</h4>
+<p>It is better to have a copy of the data you want to join (the dimensions tables) in each machine.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Parallelization-Doesn't-Always-Help">Parallelization Doesn't Always Help<a class="anchor-link" href="#Parallelization-Doesn't-Always-Help"> </a></h2><p>Let's see how two different queries work in a different way regarding parallelization, using a ClickHouse table with 50 M rows of 500 000 different items. The first ranking query is complex:</p>
+<h2 id="Parallelization-Doesn't-Always-Help">
+<a class="anchor" href="#Parallelization-Doesn't-Always-Help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parallelization Doesn't Always Help<a class="anchor-link" href="#Parallelization-Doesn't-Always-Help"> </a>
+</h2>
+<p>Let's see how two different queries work in a different way regarding parallelization, using a ClickHouse table with 50 M rows of 500 000 different items. The first ranking query is complex:</p>
 
 <pre><code>SELECT a, avg(b) c FROM parallel_stuff 
 GROUP BY a 
@@ -1932,7 +2067,8 @@ LIMIT 10</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This is how the table was created:</p>
 
@@ -1957,10 +2093,12 @@ FROM numbers(50000000)</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <table>
-<thead><tr>
+<thead>
+<tr>
 <th style="text-align:center">max_threads</th>
 <th style="text-align:right">Complex query time (secs.)</th>
 <th style="text-align:right">Simpler query time (secs.)</th>
@@ -2003,7 +2141,8 @@ FROM numbers(50000000)</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For the ranking query the decrease in time is not linear, so it does not matter how many cores we add, speed will not improve significantly.</p>
 <p>For the simpler query, the decrease is almost linear, so adding more cores will increase the speed (until memory bandwidth reaches its limit).</p>
@@ -2012,9 +2151,13 @@ FROM numbers(50000000)</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Use-the-Right-Algorithm-and-the-Best-Function-for-the-Job">Use the Right Algorithm and the Best Function for the Job<a class="anchor-link" href="#Use-the-Right-Algorithm-and-the-Best-Function-for-the-Job"> </a></h2><p>Generally, OLAP databases use probabilistic methodologies for many functionalities and algorithms. Depending on the data structure used to store the data, some functions could provide approximations faster than exact results. The error ratio for these functions is usually specified in the database documentation, as well as advice about when is more or less convenient to use them.</p>
+<h2 id="Use-the-Right-Algorithm-and-the-Best-Function-for-the-Job">
+<a class="anchor" href="#Use-the-Right-Algorithm-and-the-Best-Function-for-the-Job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use the Right Algorithm and the Best Function for the Job<a class="anchor-link" href="#Use-the-Right-Algorithm-and-the-Best-Function-for-the-Job"> </a>
+</h2>
+<p>Generally, OLAP databases use probabilistic methodologies for many functionalities and algorithms. Depending on the data structure used to store the data, some functions could provide approximations faster than exact results. The error ratio for these functions is usually specified in the database documentation, as well as advice about when is more or less convenient to use them.</p>
 <p><code>Uniq</code> vs <code>UniqExact</code> is a good example. Both do the same thing but for one small detail: <code>uniq</code> is not exact, under some conditions it returns results with an error, whereas <code>uniqExact</code> returns the correct value. The downside of <code>uniqExact</code> is that it usually takes orders of magnitude more time to run.</p>
 
 </div>
@@ -2027,7 +2170,7 @@ FROM numbers(50000000)</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT uniq(user_id) FROM events&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT uniq(user_id) FROM events"</span>
 </pre></div>
 
     </div>
@@ -2065,7 +2208,7 @@ FROM numbers(50000000)</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">&quot;SELECT uniqExact(user_id) FROM events&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">tb</span> <span class="n">sql</span> <span class="o">--</span><span class="n">stats</span> <span class="s2">"SELECT uniqExact(user_id) FROM events"</span>
 </pre></div>
 
     </div>
@@ -2096,16 +2239,21 @@ FROM numbers(50000000)</code></pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Choosing the right algorithm means understanding the business case and deciding how much accuracy against speed the final user needs. Sometimes you really need exact values but most of the time a good approximation is good enough. Note that you need to know when that error is low because otherwise you return a misleading fast result. Examples of this include <code>uniq</code>,<code>quantiles</code> and <code>topK</code>.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Key-Points-for-Queries">Key Points for Queries<a class="anchor-link" href="#Key-Points-for-Queries"> </a></h2><ul>
+<h2 id="Key-Points-for-Queries">
+<a class="anchor" href="#Key-Points-for-Queries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Key Points for Queries<a class="anchor-link" href="#Key-Points-for-Queries"> </a>
+</h2>
+<ul>
 <li>Work with ordered data (not data that is scattered all around the memory).</li>
 <li>Understand how your database accesses data and uses parallelization.</li>
 <li>Query as little data as possible and as few bytes as possible; leverage indexes and filters.</li>
@@ -2115,9 +2263,12 @@ FROM numbers(50000000)</code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Pipe-for-Querying">Pipe for Querying<a class="anchor-link" href="#Pipe-for-Querying"> </a></h2>
+<h2 id="Pipe-for-Querying">
+<a class="anchor" href="#Pipe-for-Querying" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pipe for Querying<a class="anchor-link" href="#Pipe-for-Querying"> </a>
+</h2>
 </div>
 </div>
 </div>
@@ -2128,8 +2279,8 @@ FROM numbers(50000000)</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;pipes/ch_06_querying.pipe&#39;</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">'pipes/ch_06_querying.pipe'</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s1">'''</span>
 <span class="s1">DESCRIPTION &gt;</span>
 <span class="s1">  the queries from the notebook 06_Querying</span>
 
@@ -2148,7 +2299,7 @@ FROM numbers(50000000)</code></pre>
 <span class="s1">    SELECT sum(trip_distance) </span>
 <span class="s1">    FROM taxi </span>
 <span class="s1">    WHERE tpep_pickup_datetime </span>
-<span class="s1">    BETWEEN &#39;2019-01-08 00:00:00&#39; AND &#39;2019-01-10 00:00:00&#39;</span>
+<span class="s1">    BETWEEN '2019-01-08 00:00:00' AND '2019-01-10 00:00:00'</span>
 
 <span class="s1">NODE group</span>
 <span class="s1">DESCRIPTION &gt;</span>
@@ -2215,7 +2366,7 @@ FROM numbers(50000000)</code></pre>
 <span class="s1">SQL &gt;  </span>
 <span class="s1">    SELECT count()</span>
 <span class="s1">    FROM events</span>
-<span class="s1">    WHERE position(event, &#39;item&#39;) &gt; 0</span>
+<span class="s1">    WHERE position(event, 'item') &gt; 0</span>
 
 <span class="s1">NODE filter_integer</span>
 <span class="s1">DESCRIPTION &gt;</span>
@@ -2280,7 +2431,7 @@ FROM numbers(50000000)</code></pre>
 <span class="s1">DESCRIPTION &gt;</span>
 <span class="s1">  With hash join</span>
 <span class="s1">SQL &gt;</span>
-<span class="s1">    SELECT date, product_id, user_id, event, joinGet(products_join_sku, &#39;color&#39;, product_id) </span>
+<span class="s1">    SELECT date, product_id, user_id, event, joinGet(products_join_sku, 'color', product_id) </span>
 <span class="s1">    AS color </span>
 <span class="s1">    FROM events</span>
 
@@ -2296,7 +2447,7 @@ FROM numbers(50000000)</code></pre>
 <span class="s1">DESCRIPTION &gt;</span>
 <span class="s1">  With hash join</span>
 <span class="s1">SQL &gt;</span>
-<span class="s1">    SELECT joinGet(&#39;taxi__zone_lookup&#39;, &#39;borough&#39;, pulocationid) as borough, pulocationid, tpep_pickup_datetime, tpep_dropoff_datetime</span>
+<span class="s1">    SELECT joinGet('taxi__zone_lookup', 'borough', pulocationid) as borough, pulocationid, tpep_pickup_datetime, tpep_dropoff_datetime</span>
 <span class="s1">    FROM taxi</span>
 
 <span class="s1">NODE taxi_without_Group_Array</span>
@@ -2311,12 +2462,12 @@ FROM numbers(50000000)</code></pre>
 <span class="s1">    FROM ( </span>
 <span class="s1">      SELECT * </span>
 <span class="s1">      FROM taxi </span>
-<span class="s1">      WHERE toDate(tpep_dropoff_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span>
+<span class="s1">      WHERE toDate(tpep_dropoff_datetime) IN ('2019-01-02', '2019-01-04') </span>
 <span class="s1">      ) a </span>
 <span class="s1">    ALL LEFT JOIN ( </span>
 <span class="s1">    SELECT pulocationid, dolocationid, tpep_pickup_datetime </span>
 <span class="s1">    FROM taxi </span>
-<span class="s1">    WHERE toDate(tpep_pickup_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span>
+<span class="s1">    WHERE toDate(tpep_pickup_datetime) IN ('2019-01-02', '2019-01-04') </span>
 <span class="s1">    ) b </span>
 <span class="s1">    ON (a.dolocationid = b.pulocationid) </span>
 <span class="s1">    WHERE tpep_dropoff_datetime BETWEEN next_time - INTERVAL 10 MINUTE AND next_time</span>
@@ -2338,12 +2489,12 @@ FROM numbers(50000000)</code></pre>
 <span class="s1">      FROM ( </span>
 <span class="s1">        SELECT * </span>
 <span class="s1">        FROM taxi </span>
-<span class="s1">      WHERE toDate(tpep_dropoff_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span>
+<span class="s1">      WHERE toDate(tpep_dropoff_datetime) IN ('2019-01-02', '2019-01-04') </span>
 <span class="s1">      ) a </span>
 <span class="s1">    ALL LEFT JOIN ( </span>
 <span class="s1">      SELECT pulocationid, groupArray((dolocationid, tpep_pickup_datetime)) next_locations </span>
 <span class="s1">      FROM taxi </span>
-<span class="s1">      WHERE toDate(tpep_pickup_datetime) IN (&#39;2019-01-02&#39;, &#39;2019-01-04&#39;) </span>
+<span class="s1">      WHERE toDate(tpep_pickup_datetime) IN ('2019-01-02', '2019-01-04') </span>
 <span class="s1">      GROUP BY pulocationid </span>
 <span class="s1">      ) b </span>
 <span class="s1">    ON (a.dolocationid = b.pulocationid) </span>
@@ -2380,7 +2531,7 @@ FROM numbers(50000000)</code></pre>
 <span class="s1">SQL &gt;</span>
 <span class="s1">    SELECT uniqExact(user_id) </span>
 <span class="s1">    FROM events</span>
-<span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">'''</span>
 
 <span class="n">write_text_to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
@@ -2399,7 +2550,7 @@ FROM numbers(50000000)</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span> <span class="n">tb</span> <span class="n">push</span> <span class="s1">&#39;pipes/ch_06_querying.pipe&#39;</span> <span class="o">--</span><span class="n">force</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">check</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span> <span class="n">tb</span> <span class="n">push</span> <span class="s1">'pipes/ch_06_querying.pipe'</span> <span class="o">--</span><span class="n">force</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">check</span>
 </pre></div>
 
     </div>
@@ -2416,7 +2567,7 @@ FROM numbers(50000000)</code></pre>
 ** Building dependencies
 ** Running ch_06_querying 
 <span class="ansi-green-intense-fg">** =&gt; Test endpoint at https://api.tinybird.co/v0/pipes/ch_06_querying.json</span>
-<span class="ansi-green-intense-fg">** &#39;ch_06_querying&#39; created</span>
+<span class="ansi-green-intense-fg">** 'ch_06_querying' created</span>
 ** Not pushing fixtures
 </pre>
 </div>
@@ -2428,18 +2579,25 @@ FROM numbers(50000000)</code></pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Course-Outline"><a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/01_Getting_Started.ipynb">Course Outline</a><a class="anchor-link" href="#Course-Outline"> </a></h2><table>
-<thead><tr>
+<h2 id="Course-Outline">
+<a class="anchor" href="#Course-Outline" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/01_Getting_Started.ipynb">Course Outline</a><a class="anchor-link" href="#Course-Outline"> </a>
+</h2>
+<table>
+<thead>
+<tr>
 <th style="text-align:left">Previous Notebook</th>
 <th style="text-align:left">Next Notebook</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">5. <a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/05_Data_Storage_Inside_the_Analytics_Database.ipynb">Data Storage Inside the Analytics Database</a></td>
-<td style="text-align:left">7. <a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/07_Best_Practices_for_Views.ipynb">Best Practices for Views</a></td>
+<td style="text-align:left">5. <a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/05_Data_Storage_Inside_the_Analytics_Database.ipynb">Data Storage Inside the Analytics Database</a>
+</td>
+<td style="text-align:left">7. <a href="https://colab.research.google.com/github/AlisonJD/RTACourse/blob/main/07_Best_Practices_for_Views.ipynb">Best Practices for Views</a>
+</td>
 </tr>
 </tbody>
 </table>
@@ -2451,7 +2609,7 @@ FROM numbers(50000000)</code></pre>
 
 
 
-  </div><a class="u-url" href="/fastpages/real-time/analytics/fastpages/jupyter/2021/09/01/ch06-Querying.html" hidden></a>
+  </div><a class="u-url" href="/fastpages/real-time/analytics/queries/joins/2021/09/01/ch06-Querying.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
