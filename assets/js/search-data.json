@@ -10,8 +10,8 @@
 
   
       "page1": {
-          "title": "About Me",
-          "content": "This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
+          "title": "Course Outline",
+          "content": "Why this course? The use case | Getting Started - How to Run the Notebooks in Google Colab and Tinybird Interactive | The Software - ClickHouse and Tinybird - and Hardware | Use the Right Database | Source Data and Ingestion | Data Storage Inside the Analytics Database Interactive | Querying Interactive | Best Practices for Views Interactive | Exposing the Data | Metrics | Scaling-up - How to Size Clusters Correctly | Main Takeaways | Data Sources Used in the Notebooks Copy to your drive and run these dataset notebooks to create the Data Sources used in the interactive notebooks (5, 6 and 7). | Tinybird Events | Tinybird Products | New YorkCity Taxi Trips | ClickHouse Hits | ClickHouse Recipes | . |",
           "url": "https://alisonjd.github.io/fastpages/about/",
           "relUrl": "/about/",
           "date": ""
